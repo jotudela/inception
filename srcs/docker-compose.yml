@@ -1,0 +1,84 @@
+services:
+  mariadb:
+    build:
+      context: ./requirements/mariadb
+    image: mariadb
+    env_file:
+      - .env
+    container_name: mariadb
+    volumes:
+      - mariadb_volume:/var/lib/mysql
+    environment:
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    networks:
+      - inception_networks
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
+  wordpress:
+    build:
+      context: ./requirements/wordpress
+    image: wordpress
+    env_file:
+      - .env
+    container_name: wordpress
+    volumes:
+      - wordpress_volume:/var/www/html
+    environment:
+      WP_DB_NAME: ${DB_NAME}
+      WP_DB_USER: ${DB_USER}
+      WP_DB_PASSWORD: ${DB_PASSWORD}
+      WP_DB_HOST: mariadb:3306
+      WP_ADMIN_USER: ${WP_ADMIN_USER}
+      WP_ADMIN_PASSWORD: ${WP_ADMIN_PASSWORD}
+      WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
+      DB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    networks:
+      - inception_networks
+    healthcheck:
+      test: ["CMD", "sh", "-c", "[ -d /run/php ]"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 60s
+
+  nginx:
+    build:
+      context: ./requirements/nginx
+    image: nginx
+    env_file:
+      - .env
+    container_name: nginx
+    volumes:
+      - wordpress_volume:/var/www/html
+    ports:
+      - "443:443"
+    depends_on:
+      wordpress:
+        condition: service_healthy
+    networks:
+      - inception_networks
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f -k https://jotudela.42.fr || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  mariadb_volume:
+  wordpress_volume:
+
+networks:
+  inception_networks:
+    driver: bridge
