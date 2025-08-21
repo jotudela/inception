@@ -29,8 +29,18 @@ I will have to put in place :
 
 > [!NOTE]
 > My containers will need to restart in case of a crash.
+<br>
 
+Here an example of what i have put in place :
+<p align="center">
+  <img src="imgs/shema_archi.png" alt="shema">
+</p>
+<br>
 
+and the architecture we need to do the project :
+<p align="center">
+  <img src="imgs/archi_directory.png" alt="shema">
+</p>
 
 My final grade :
 
