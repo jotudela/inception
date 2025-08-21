@@ -1,6 +1,7 @@
 <p align="center">
-  <img src="imgs/inception.png" width=400 alt="Leonardo">
+  <img src="imgs/inception.png" width=500 alt="Leonardo">
 </p>
+
 # 🚀 INTRODUCTION
 
 The `inception` 42 project challenges students to harness the power of containerization to build a fully functional, modular infrastructure.
