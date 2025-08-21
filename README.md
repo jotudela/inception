@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="imgs/inception.png" width=500 alt="Leonardo">
+  <img src="imgs/inception.png" width=600 alt="Leonardo">
 </p>
 
 # 🚀 INTRODUCTION
