@@ -16,8 +16,21 @@ From configuring a secure web server to managing a persistent database, the `inc
 
 > [!WARNING]
 > This project aims to be executed in a x86 Linux environment, in a VM, with advanced configuration.
+>
+> `so sorry but in this repo, i won't show you how to test with your machine.`
 
-## ⚙️ Usage
+I will have to put in place :
+- A Docker container containing NGINX with TLSv1.2 or TLSv1.3 only.
+- A Docker container containing WordPress + php-fpm (installed and configured) only, without nginx.
+- A Docker container containing MariaDB only without nginx.
+- A volume containing your WordPress database.
+- A second volume containing your WordPress site files.
+- A docker network that will link your containers.
+
+> [!NOTE]
+> My containers will need to restart in case of a crash.
+
+
 
 My final grade :
 
